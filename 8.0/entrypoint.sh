@@ -23,6 +23,18 @@ check_config "db_port" "$PORT"
 check_config "db_user" "$USER"
 check_config "db_password" "$PASSWORD"
 
+# Generate passwd file based on current uid
+function generate_passwd_file() {
+  export USER_ID=$(id -u)
+  export GROUP_ID=$(id -g)
+  grep -v ^odoo /etc/passwd > "$HOME/passwd"
+  echo "odoo:x:${USER_ID}:${GROUP_ID}:Odoo:${HOME}:/bin/bash" >> "$HOME/passwd"
+  export LD_PRELOAD=libnss_wrapper.so
+  export NSS_WRAPPER_PASSWD=${HOME}/passwd
+  export NSS_WRAPPER_GROUP=/etc/group
+}
+generate_passwd_file
+
 case "$1" in
     -- | openerp-server)
         shift

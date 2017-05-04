@@ -14,7 +14,8 @@ RUN set -x; \
             python-pyinotify \
             python-renderpm \
             python-support \
-            nss-wrapper
+        && curl -o libnss-wrapper.deb -SL http://ftp.debian.org/debian/pool/main/n/nss-wrapper/libnss-wrapper_1.1.3-1_amd64.deb \
+        && dpkg --force-depends -i libnss-wrapper.deb \
         && curl -o wkhtmltox.deb -SL http://nightly.odoo.com/extra/wkhtmltox-0.12.1.2_linux-jessie-amd64.deb \
         && echo '40e8b906de658a2221b15e4e8cd82565a47d7ee8 wkhtmltox.deb' | sha1sum -c - \
         && dpkg --force-depends -i wkhtmltox.deb \

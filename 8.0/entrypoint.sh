@@ -25,6 +25,8 @@ check_config "db_password" "$PASSWORD"
 
 # Generate passwd file based on current uid
 function generate_passwd_file() {
+  mkdir -p "/tmp/odoo/"
+  export HOME="/tmp/odoo"
   export USER_ID=$(id -u)
   export GROUP_ID=$(id -g)
   grep -v ^odoo /etc/passwd > "$HOME/passwd"
